@@ -2,6 +2,10 @@ import { Layout, Menu, Button, Space, Dropdown, Avatar } from "antd";
 import { LogoutOutlined, UserOutlined, PlusOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../core/hooks/useAuth";
+import { useEffect } from "react";
+import { useAppDispatch } from "../core/redux";
+import { authAPI } from "../core/services/authAPI";
+import { setUser, setLoading } from "../core/redux/authSlice";
 
 const { Header, Content, Footer } = Layout;
 
@@ -12,6 +16,27 @@ interface RootLayoutProps {
 export const RootLayout = ({ children }: RootLayoutProps) => {
   const navigate = useNavigate();
   const { user, isAuthenticated, logout } = useAuth();
+  const dispatch = useAppDispatch();
+
+  // On app start, if accessToken exists but user not loaded, try to fetch profile
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (token && !user) {
+      (async () => {
+        try {
+          dispatch(setLoading(true));
+          const res = await authAPI.getProfile();
+          dispatch(setUser(res.data));
+        } catch (e) {
+          // token invalid or network error — remove stored tokens
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
+        } finally {
+          dispatch(setLoading(false));
+        }
+      })();
+    }
+  }, [user, dispatch]);
 
   const handleLogout = async () => {
     await logout();

@@ -1,5 +1,5 @@
 import { Form, Input, Button, Card, message } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../core/hooks/useAuth";
 import * as Yup from "yup";
 
@@ -12,6 +12,7 @@ const loginSchema = Yup.object({
 
 export default function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { login, loading } = useAuth();
   const [form] = Form.useForm();
 
@@ -20,7 +21,8 @@ export default function Login() {
       await loginSchema.validate(values);
       await login(values.email, values.password);
       message.success("Login successful!");
-      navigate("/");
+      const from = (location.state as any)?.from?.pathname || "/";
+      navigate(from, { replace: true });
     } catch (error: any) {
       message.error(error?.response?.data?.error || "Login failed!");
     }
