@@ -23,13 +23,11 @@ import router from "./router";
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-        <Suspense fallback={<Spin />}>
-          <RouterProvider router={router} />
-        </Suspense>
-      </Provider>
-    </QueryClientProvider>
-  </StrictMode>
+  <QueryClientProvider client={queryClient}>
+    <Provider store={store}>
+      <Suspense fallback={<Spin />}>
+        <RouterProvider router={router} />
+      </Suspense>
+    </Provider>
+  </QueryClientProvider>
 );

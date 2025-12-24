@@ -37,7 +37,9 @@ export interface AuthResponse {
 }
 
 export interface PaginatedResponse<T> {
-  data: T[];
+  data: {
+    meta?: { totalItems: number; totalPages: number; currentPage: number; itemsPerPage: number };
+    posts: T[]};
   total: number;
   page: number;
   limit: number;

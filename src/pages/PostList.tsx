@@ -36,7 +36,7 @@ export default function PostList() {
     }
   };
 
-  const posts = postsData?.data || [];
+  const posts = postsData?.data?.posts || [];
 
   return (
     <div>

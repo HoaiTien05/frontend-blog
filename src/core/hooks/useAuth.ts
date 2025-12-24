@@ -10,7 +10,7 @@ export const useAuth = () => {
     dispatch(setLoading(true));
     try {
       const response = await authAPI.login({ email, password });
-      const { accessToken, refreshToken, user: userData } = response.data;
+      const { accessToken, refreshToken, user: userData } = response.data.data;
       
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
@@ -28,7 +28,7 @@ export const useAuth = () => {
     dispatch(setLoading(true));
     try {
       const response = await authAPI.register({ username, email, password });
-      const { accessToken, refreshToken, user: userData } = response.data;
+      const { accessToken, refreshToken, user: userData } = response.data.data;
       
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);

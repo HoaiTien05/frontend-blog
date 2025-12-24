@@ -11,8 +11,8 @@ export default function Home() {
     queryKey: ["posts"],
     queryFn: () => postAPI.getPosts({ limit: 5 }).then((res) => res.data),
   });
-
-  const recentPosts = postsData?.data || [];
+  console.log("Posts Data:", postsData);
+  const recentPosts = postsData?.data?.posts || [];
 
   return (
     <div>

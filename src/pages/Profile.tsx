@@ -57,11 +57,11 @@ export default function Profile() {
           initialValues={profile}
         >
           <Form.Item label="Username" name="username">
-            <Input disabled />
+            <Input />
           </Form.Item>
 
           <Form.Item label="Email" name="email">
-            <Input disabled />
+            <Input />
           </Form.Item>
 
           <Form.Item label="Bio" name="bio">
