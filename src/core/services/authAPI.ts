@@ -17,6 +17,6 @@ export const authAPI = {
 
   getProfile: () => axiosInstance.get<User>('/users/profile'),
 
-  updateProfile: (data: Partial<User>) =>
-    axiosInstance.put<User>('/users/profile', data),
+  updateProfile: (data: Partial<User> | FormData, config?: any) =>
+    axiosInstance.put<User>('/users/profile', data, config),
 };

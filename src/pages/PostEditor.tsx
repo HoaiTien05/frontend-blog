@@ -23,7 +23,8 @@ export default function PostEditor() {
       message.success("Post created successfully!");
       navigate(`/posts/${response.data.slug}`);
     },
-    onError: () => {
+    onError: (error: any) => {
+      console.error("Create post error:", error?.response ?? error);
       message.error("Failed to create post!");
     },
   });
@@ -31,11 +32,12 @@ export default function PostEditor() {
   const updateMutation = useMutation({
     mutationFn: (data: any) =>
       id ? postAPI.updatePost(id, data) : Promise.reject(),
-    onSuccess: (response) => {
+    onSuccess: () => {
       message.success("Post updated successfully!");
-      navigate(`/posts/${response.data.slug}`);
+      navigate(`/`);
     },
-    onError: () => {
+    onError: (error: any) => {
+      console.error("Update post error:", error?.response ?? error);
       message.error("Failed to update post!");
     },
   });
