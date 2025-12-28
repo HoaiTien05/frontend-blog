@@ -19,9 +19,9 @@ export default function PostEditor() {
 
   const createMutation = useMutation({
     mutationFn: (data: any) => postAPI.createPost(data),
-    onSuccess: (response) => {
+    onSuccess: () => {
       message.success("Post created successfully!");
-      navigate(`/posts/${response.data.slug}`);
+      navigate(`/posts`);
     },
     onError: (error: any) => {
       console.error("Create post error:", error?.response ?? error);

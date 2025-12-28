@@ -8,7 +8,7 @@ export const postAPI = {
   getPostBySlug: (slug: string) =>
     axiosInstance.get<Post>(`/posts/${slug}`),
 
-  getPostById: (id: string) =>
+  getById: (id: string) =>
   axiosInstance.get<Post>(`/posts/id/${id}`),
 
 

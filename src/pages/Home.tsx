@@ -9,10 +9,19 @@ export default function Home() {
   const { isAuthenticated } = useAppSelector((state) => state.auth);
   const { data: postsData } = useQuery({
     queryKey: ["posts"],
-    queryFn: () => postAPI.getPosts({ limit: 5 }).then((res) => res.data),
+    queryFn: () => postAPI.getPosts({ limit: 30 }).then((res) => res.data),
   });
   console.log("Posts Data:", postsData);
-  const recentPosts = postsData?.data?.posts || [];
+
+  // const recentPosts = postsData?.data?.posts || [];
+  const recentPosts =
+    postsData?.data?.posts
+      ?.slice()
+      ?.sort(
+        (a, b) =>
+          new Date(b.updatedAt || b.createdAt).getTime() -
+          new Date(a.updatedAt || a.createdAt).getTime()
+      ) || [];
 
   return (
     <div>
@@ -71,7 +80,7 @@ export default function Home() {
               <Card
                 key={post.id}
                 style={{ marginBottom: 16, cursor: "pointer" }}
-                onClick={() => navigate(`/posts/${post.slug}`)}
+                onClick={() => navigate(`/posts/${post.id}`)}
               >
                 <h3>{post.title}</h3>
                 <p>{post.excerpt || post.content.substring(0, 100)}...</p>
