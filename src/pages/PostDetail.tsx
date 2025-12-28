@@ -17,13 +17,15 @@ export default function PostDetail() {
   const { data: post, isLoading } = useQuery({
     queryKey: ["post", slug],
     queryFn: () =>
-      slug ? postAPI.getPostBySlug(slug).then((res) => res.data) : null,
+      slug ? postAPI.getPostBySlug(slug).then((res) => res.data.data) : null,
   });
 
-  const { data: comments } = useQuery({
+  const { data: comments = [] } = useQuery({
     queryKey: ["comments", post?.id],
     queryFn: () =>
-      post?.id ? commentAPI.getComments(post.id).then((res) => res.data) : [],
+      post?.id
+        ? commentAPI.getComments(post.id).then((res) => res.data.data)
+        : [],
     enabled: !!post?.id,
   });
 
@@ -80,24 +82,24 @@ export default function PostDetail() {
               {new Date(post.createdAt).toLocaleDateString()}
             </p>
           </div>
-          {user?.id === post.authorId && (
-            <Space>
-              <Button
-                icon={<EditOutlined />}
-                onClick={() => navigate(`/posts/${post.id}/edit`)}
-              >
-                Edit
-              </Button>
-              <Button
-                danger
-                icon={<DeleteOutlined />}
-                onClick={handleDeletePost}
-                loading={deleteMutation.isPending}
-              >
-                Delete
-              </Button>
-            </Space>
-          )}
+          {/* {user?.id === post.authorId && ( */}
+          <Space>
+            <Button
+              icon={<EditOutlined />}
+              onClick={() => navigate(`/posts/${post.id}/edit`)}
+            >
+              Edit
+            </Button>
+            <Button
+              danger
+              icon={<DeleteOutlined />}
+              onClick={handleDeletePost}
+              loading={deleteMutation.isPending}
+            >
+              Delete
+            </Button>
+          </Space>
+          {/* )} */}
         </div>
 
         <div style={{ marginTop: 24, lineHeight: 1.6 }}>{post.content}</div>

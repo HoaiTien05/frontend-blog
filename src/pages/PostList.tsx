@@ -36,7 +36,14 @@ export default function PostList() {
     }
   };
 
-  const posts = postsData?.data?.posts || [];
+  const posts =
+    postsData?.data?.posts
+      ?.slice()
+      ?.sort(
+        (a, b) =>
+          new Date(b.updatedAt || b.createdAt).getTime() -
+          new Date(a.updatedAt || a.createdAt).getTime()
+      ) || [];
 
   return (
     <div>
@@ -59,7 +66,7 @@ export default function PostList() {
             <Card
               key={post.id}
               style={{ marginBottom: 16, cursor: "pointer" }}
-              onClick={() => navigate(`/posts/${post.slug}`)}
+              onClick={() => navigate(`/posts/${post.id}`)}
             >
               <div
                 style={{

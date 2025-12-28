@@ -22,7 +22,7 @@ export interface Post {
 }
 
 export interface Comment {
-  id: string;
+  id: number;
   content: string;
   postId: string;
   authorId: string;
